@@ -5,7 +5,7 @@
         "description": "kapasitas untuk 100 orang",
         "price": 1000000,
         "img_Url": "https://static.independent.co.uk/2024/01/09/12/FAO_83054_Villa_Mangas_Albufeira_0723_01_RGB-136-DPI-For-Web.jpg",
-        "locationId": 1
+        "LocationId": 1
     },
     {
         "id": 2,
@@ -13,7 +13,7 @@
         "description": "kapasitas untuk 100 orang",
         "price": 1000000,
         "img_Url": "https://static.independent.co.uk/2024/01/09/12/FAO_83054_Villa_Mangas_Albufeira_0723_01_RGB-136-DPI-For-Web.jpg",
-        "locationId": 2
+        "LocationId": 2
     },
     {
         "id": 3,
@@ -21,7 +21,7 @@
         "description": "kapasitas untuk 100 orang",
         "price": 1000000,
         "img_Url": "https://static.realting.com/uploads/images/3f1/445e22c2280ba1273ef81a36f446a.webp",
-        "locationId": 3
+        "LocationId": 3
     },
     {
         "id": 4,
@@ -29,7 +29,7 @@
         "description": "kapasitas untuk 100 orang",
         "price": 1000000,
         "img_Url": "https://static.independent.co.uk/2024/01/09/12/FAO_83054_Villa_Mangas_Albufeira_0723_01_RGB-136-DPI-For-Web.jpg",
-        "locationId": 4
+        "LocationId": 4
     },
     {
         "id": 5,
@@ -37,7 +37,7 @@
         "description": "kapasitas untuk 100 orang",
         "price": 1000000,
         "img_Url": "https://static.independent.co.uk/2024/01/09/12/FAO_83054_Villa_Mangas_Albufeira_0723_01_RGB-136-DPI-For-Web.jpg",
-        "locationId": 5
+        "LocationId": 5
     },
     {
         "id": 6,
@@ -45,6 +45,6 @@
         "description": "kapasitas untuk 100 orang",
         "price": 1000000,
         "img_Url": "https://static.independent.co.uk/2024/01/09/12/FAO_83054_Villa_Mangas_Albufeira_0723_01_RGB-136-DPI-For-Web.jpg",
-        "locationId": 2
+        "LocationId": 2
     }
 ]
