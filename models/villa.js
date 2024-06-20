@@ -26,10 +26,50 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Villa.init({
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    price: DataTypes.INTEGER,
-    img_Url: DataTypes.STRING,
+    name: {type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "name cannot be null"
+        },
+        notEmpty: {
+          msg: "name cannot be empty"
+        }
+      }
+    },
+    description: {type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "description cannot be null"
+        },
+        notEmpty: {
+          msg: "description cannot be empty"
+        }
+      }
+    },
+    price: {type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "price cannot be null"
+        },
+        notEmpty: {
+          msg: "price cannot be empty"
+        }
+      }
+    },
+    img_Url: {type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "villa image cannot be null"
+        },
+        notEmpty: {
+          msg: "villa image cannot be empty"
+        }
+      }
+    },
     LocationId: DataTypes.INTEGER
   }, {
     sequelize,
