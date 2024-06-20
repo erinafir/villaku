@@ -1,84 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        *,
-        body {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 400;
-            -webkit-font-smoothing: antialiased;
-            text-rendering: optimizeLegibility;
-            -moz-osx-font-smoothing: grayscale;
-        }
-    </style>
-</head>
-<body style=" background-color: #152733;">
-    
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            
-            <div class="rounded-circle bg-white shadow-1-strong d-flex align-items-center justify-content-center mb-4 mx-auto" style="width: 100px; height: 100px;">
-                <img src="https://i.pinimg.com/736x/1a/7d/c7/1a7dc7508a3af5468f491b116624a376.jpg" height="150" alt=""
-                     loading="lazy" />
-                </div>
-    
-             
-          <a style="margin-left: 30px;" class="navbar-brand" href="/">Villaku</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/villaku/register"> Register</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/villaku/login">Login</a>
-              </li>
-              <li class="nav-item">
 
-                <a class="nav-link active" aria-current="page" href="/villaku/<%= UserId %>/rented">My Villas</a>
-              </li>
-                <a style="margin-left: 1000px;" href="/villaku/logout" class="btn btn-outline-success" type="submit">Log out</a>
-          </div>
-        </div>
-      </nav>
-    <h1 style="color: white; margin-bottom: 5px;margin-top: 50px;" class="text-center fs-1 fst-italic fw-bolder">Villaku</h1>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <form class="input-group">
-                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control" placeholder="Search" aria-label="Search"
-                        aria-describedby="basic-addon1">
-                </form>
-            </div>
-        </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *,
+    body {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
+</head>
+
+<body style=" background-color: #152733;">
+
+<%- include('_navbar') %>
+
+  <h1 style="color: white; margin-bottom: 5px;margin-top: 50px;" class="text-center fs-1 fst-italic fw-bolder">Villaku
+  </h1>
+  <div class="container">
+    <h4 style="color: white;">Welcome, <%= user.greetRole() %> </h4>
+    <div class="d-flex">
+      <p style="margin-right: 10px; font-size: large; color: white;">Sort by: </p>
+      <a href="/villaku/<%= UserId %>?sort=name" type="button" class="btn btn-outline-primary" style="margin: 5px 5px;">Name</a>
+      <a href="/villaku/<%= UserId %>?sort=price" type="button" class="btn btn-outline-primary" style="margin: 5px 5px;">Price</a>
     </div>
-    
+  </div>
+
   <div class="d-flex flex-wrap justify-content-center"></div>
   <div class="row">
-      <% data.forEach(element => { %>
+    <% data.forEach(element=> { %>
       <div class="col-md-3">
         <div class="card" style="width: 20rem; margin: 20px">
-          <img src= <%= element.img_Url %> class="card-img-top" alt="...">
+          <img src=<%=element.img_Url %> class="card-img-top" alt="...">
           <div class="card-body">
-            <h4 class="card-title"> <%= element.name %> <%= element.age %> </h4>
-            <p class="card-text">Description:</p>
-            <h5 class="card-title"> <%=element.description%> </h5>
-            <h5 class="card-title"> <%=rupiah(element.price)%> </h5>
-            <a href="/villaku/<%= UserId %>/rented?VillaId=<%= element.id %>"  class="btn btn-primary text-center">Book this</a>
+            <h4 class="card-title">
+              <%= element.name %>
+            </h4>
+            <p class="card-subtitle">Description:</p>
+            <h5 class="card-text">
+              <%=element.description%>
+            </h5>
+            <h5 class="card-text">
+              <%=rupiah(element.price)%>
+            </h5>
+            <h5 class="card-text">
+              <%= %>
+            </h5>
+            <a href="/villaku/<%= UserId %>/rented?VillaId=<%= element.id %>" class="btn btn-primary text-center">Book
+              this</a>
           </div>
         </div>
       </div>
       <% }) %>
-    </div>
-   
-    <%- include('_link') %>
+  </div>
+
+  <%- include('_link') %>
     <%- include('_footer') %>
-    
+
 </body>
+
 </html>

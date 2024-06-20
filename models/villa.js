@@ -2,11 +2,18 @@
 const {
   Model
 } = require('sequelize');
+const {Op} = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Villa extends Model {
 
-    static async getAllVilla(){
+    static async getAllVilla(search) {
       try {
+        if (search) {
+          let data = await Villa.findAll({
+            where: {
+              name: { [Op.iLike]: `%${search}%`}}})
+          return data
+        }
         let data = await Villa.findAll()
         return data
       } catch (error) {
@@ -14,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    static async findVillaById(id){
+    static async findVillaById(id) {
       try {
         let data = await Villa.findOne({
           where: {
@@ -31,15 +38,16 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       // define association here
-      Villa.belongsTo(models.Location, {foreignKey: "LocationId"})
-      Villa.belongsToMany(models.User, {through: "UserVilla", foreignKey: "VillaId"})
+      Villa.belongsTo(models.Location, { foreignKey: "LocationId" })
+      Villa.belongsToMany(models.User, { through: "UserVilla", foreignKey: "VillaId" })
     }
 
-    
+
   }
 
   Villa.init({
-    name: {type: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -50,7 +58,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    description: {type: DataTypes.STRING,
+    description: {
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -61,7 +70,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    price: {type: DataTypes.INTEGER,
+    price: {
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notNull: {
@@ -72,7 +82,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    img_Url: {type: DataTypes.STRING,
+    img_Url: {
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {

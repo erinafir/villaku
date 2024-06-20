@@ -1,14 +1,21 @@
-
-const { User, Villa, Location, UserProfile } = require("../models");
+const { User, Villa, Location, UserProfile, UserVilla } = require("../models");
 const rupiah = require("../helpers/index");
-const UserVilla = require("../models/uservilla");
 const bcrypt = require("bcryptjs");
+const { Op, where } = require('sequelize');
+let {mailOptions, transporter} = require('../index')
 
 class Controller {
+
   static async home(req, res) {
     try {
-      let data = await Villa.getAllVilla();
-      res.render("home", { data, rupiah });
+      const { search } = req.query
+      if (search) {
+        let data = await Villa.getAllVilla(search);
+        res.render("home", { data, rupiah });
+      } else {
+        let data = await Villa.getAllVilla();
+        res.render("home", { data, rupiah });
+      }
     } catch (error) {
       res.send(error.message);
     }
@@ -16,28 +23,38 @@ class Controller {
 
   static async dashboardAdmin(req, res) {
     try {
-      let data = await Villa.getAllVilla();
+      let data = await Villa.findAll({include: Location});
+      
       res.render("dashboardAdmin", { data, rupiah });
     } catch (error) {
       res.send(error);
     }
   }
 
-
   static async showMyVillas(req, res) {
     try {
       const { UserId } = req.params
-      const {VillaId} = req.query
+      const { VillaId } = req.query
+      await UserVilla.create({
+        UserId: UserId,
+        VillaId: VillaId
+      })
       let user = await User.findOne({
         where: {
           id: +UserId
         }, include: Villa
       })
-      let data = await Villa.findOne({
+      let profile = await UserProfile.findOne({
         where: {
           id: +UserId
-        }})
-      res.render('myVillas', { data, user, rupiah })
+        }
+      })
+      let data = await Villa.findOne({
+        where: {
+          id: +VillaId
+        }, include: Location
+      })
+      res.render('myVillas', { data, user, profile, rupiah })
     } catch (error) {
       res.send(error)
       console.log(error);
@@ -56,36 +73,31 @@ class Controller {
 
   static async postRegister(req, res) {
     try {
+
       const { username, fullName, email, password, phoneNumber } = req.body;
       let newUser = await User.create({
         username: username,
         email: email,
         password: password,
       });
-      await UserProfile.create({
+      let userProfile = await UserProfile.create({
         fullName: fullName,
         phoneNumber: phoneNumber,
         UserId: newUser.id,
       });
-      const emailjs = require("emailjs-com");
-      const templateParams = {
-        to_email: email,
+      mailOptions = {
+        from: 'aetherdstorm@gmail.com',
+        to: `${email}`,
+        subject: 'Welcome to Villaku!',
+        text: `Welcome to Villaku! We're so happy to have you here. Are you ready to rent by vibe?`
       };
-      emailjs
-        .send(
-          "contact_service",
-          "welcome_email",
-          templateParams,
-          "-OUQA3nFzhtZl9-Gs"
-        )
-        .then(
-          (response) => {
-            console.log("SUCCESS!", response.status, response.text);
-          },
-          (err) => {
-            console.log("FAILED...", err);
-          }
-        );
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
       res.redirect("/");
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
@@ -126,8 +138,18 @@ class Controller {
   static async redirectLogin(req, res) {
     try {
       const { UserId } = req.params
-      let data = await Villa.getAllVilla()
-      res.render('redirect-home', { data, UserId, rupiah })
+      const { sort } = req.query
+      let user = await User.findByPk(+UserId , {include: UserProfile})
+      
+      if (sort) {
+        let data = await Villa.findAll({
+          order: [[sort, 'desc']]
+        })
+        res.render('redirect-home', { data, UserId, user, rupiah })
+      } else {
+        let data = await Villa.findAll()
+        res.render('redirect-home', { data, UserId, user, rupiah })
+      }
     } catch (error) {
       res.send(error)
       console.log(error);
@@ -143,22 +165,22 @@ class Controller {
   }
 
 
-    static async postAddVilla(req, res) {
-        try {
-            const {name, description, price, img_Url} = req.body
-            await Villa.create({name, description, price: +price, img_Url})
-            res.redirect('/villaku/admin')
-        } catch (error) {
-            if (error.name === "SequelizeValidationError") {
-                error = error.errors.map(el => el.message)
-                res.redirect(`/villaku/register?error=${error}`)
-            } else {
-                res.send(error)
-                console.log(error);
-            }
-        }
+  static async postAddVilla(req, res) {
+    try {
+      const { name, description, price, img_Url } = req.body
+      await Villa.create({ name, description, price: +price, img_Url })
+      res.redirect('/villaku/admin')
+    } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+        error = error.errors.map(el => el.message)
+        res.redirect(`/villaku/register?error=${error}`)
+      } else {
+        res.send(error)
+        console.log(error);
       }
-        
+    }
+  }
+
 
 
   static async showFormEditVilla(req, res) {
@@ -215,18 +237,18 @@ class Controller {
   }
 
 
-    static async logout(req, res) {
-        try {
-            req.session.destroy(function (err) {
-                if (err) console.log(err);
-            })
-            res.redirect('/')
-        } catch (error) {
-            res.send(error.message)
-        }
-      }
+  static async logout(req, res) {
+    try {
+      req.session.destroy(function (err) {
+        if (err) console.log(err);
+      })
+      res.redirect('/')
+    } catch (error) {
+      res.send(error.message)
     }
-  
+  }
+}
+
 
 
 

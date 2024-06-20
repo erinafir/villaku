@@ -11,10 +11,10 @@
     <a class="btn btn-primary" href="/villaku/<%= user.id %>" role="button">Back to Home</a>
     
     <% if (user.Villas.length === 0) { %> 
-      <h3 >Sorry <%= user.name %>, it appears that you haven't rented anything</h3>
+      <h3 >Sorry <%= profile.fullName %>, it appears that you haven't rented anything</h3>
       <% } else {%> 
       
-      <h3>Congratulations <%= user.name %></h3>
+      <h3>Congratulations <%= profile.fullName %></h3>
       <h5>You successfully rented this property:</h5>
        <div class="card" style="width: 18rem;">
          <img src="<%= data.img_Url %>" class="card-img-top" alt="...">
@@ -22,7 +22,8 @@
            <h5 class="card-title"> <%= data.name %></h5>
            <p class="card-text"><%= data.description %></p>
            <p class="card-text"><%= rupiah(data.price) %></p>
-           <a href="/" class="btn btn-primary">Cancel</a>
+           <p class="card-text"><%= data.Location.name %></p>
+           <a href="/villaku/<%= user.id %>" class="btn btn-primary">Cancel</a>
          </div>
        </div>
        <% } %>
