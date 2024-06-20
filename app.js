@@ -8,6 +8,7 @@ npx sequelize model:generate --name UserVilla --attributes UserId:integer,VillaI
 npx sequelize migration:generate --name add-user-relation
 npx sequelize migration:generate --name alter-default-role
 npx sequelize migration:generate --name alter-foreign-key
+
 //note: tambahin UserId di userprofile
 
 npx sequelize seed:generate --name seed-users;
@@ -15,3 +16,17 @@ npx sequelize seed:generate --name seed-userprofiles;
 npx sequelize seed:generate --name seed-location;
 npx sequelize seed:generate --name seed-villa
 */
+
+const express = require('express')
+const Controller = require('./controllers/controller')
+const app = express()
+const port = 3000
+
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+
+
+
+app.listen(port, () => {
+    console.log(`App is listening on port ${port}`)
+})
