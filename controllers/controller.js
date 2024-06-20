@@ -14,7 +14,7 @@ class Controller {
     static async dashboardAdmin(req,res){
         try {
             let data = await Villa.getAllVilla()
-            res.render()
+            res.render('dashboardAdmin')
         } catch (error) {
             res.send(error)
         }
