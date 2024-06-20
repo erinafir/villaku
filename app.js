@@ -15,3 +15,18 @@ npx sequelize seed:generate --name seed-userprofiles;
 npx sequelize seed:generate --name seed-location;
 npx sequelize seed:generate --name seed-villa
 */
+
+const express = require('express')
+const Controller = require('./controllers/controller')
+const app = express()
+const port = 3000
+
+
+app.set('view engine', 'ejs')
+app.use(express.urlencoded ({extended: true}))
+
+app.get('/', Controller.home)
+
+app.listen(port, () => {
+    console.log(`web berjalan di port ${port}`);
+})
