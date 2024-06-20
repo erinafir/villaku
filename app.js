@@ -43,8 +43,10 @@ app.get('/villaku/:UserId/rented', Controller.showMyVillas)
 // app.post('/profile/:profileId/edit', Controller) 
 // app.get('/profile/:profileId/delete', Controller)
 
+
 app.get('/villaku/admin/add', checkAdmin, Controller.showFormAddVilla)
 app.post('/villaku/admin/add', checkAdmin, Controller.postAddVilla)
+
 
 app.get('/villaku/admin/:VillaId/edit', checkAdmin, Controller.showFormEditVilla)
 app.post('/villaku/admin/:VillaId/edit', checkAdmin, Controller.postEditVilla)
@@ -57,3 +59,5 @@ app.get('/villaku/logout', Controller.logout)
 app.listen(port, () => {
     console.log(`web berjalan di port ${port}`);
 })
+
+

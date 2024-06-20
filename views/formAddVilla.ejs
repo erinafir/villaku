@@ -6,6 +6,7 @@
     <title> Form Add Villa</title>
 </head>
 <body>
+    <%- include('_navbar') %>
     <style>
            body {
       background-color: aqua;
@@ -14,11 +15,10 @@
       background-size: 100% 100%;
     }
     </style>
-    <% data.forEach(element => { %>
-     
-    <% }) %>
+   
     <div class="container"; style="background-image: url();">
-        <form action="/villaku/admin/<% element.id %>/add" method="post">
+        <h1>Form Add New Villa</h1>
+        <form action="/villaku/admin/add" method="post">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Name</label>
                 <input type="text" class="form-control" name="name">
@@ -39,7 +39,7 @@
 
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Image Url</label>
-                <input type="text" class="form-control" name="image_Url">
+                <input type="text" class="form-control" name="img_Url">
 
             </div>
             <button type="submit" class="btn btn-primary">Add</button>
@@ -48,5 +48,6 @@
         </form>
     </div>
     <%- include('_link') %>
+    <%- include('_footer') %>
 </body>
 </html>

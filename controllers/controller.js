@@ -16,7 +16,9 @@ class Controller {
     static async dashboardAdmin(req, res) {
         try {
             let data = await Villa.getAllVilla()
+
             res.render('dashboardAdmin', { data, rupiah })
+
         } catch (error) {
             res.send(error)
         }
@@ -117,9 +119,10 @@ class Controller {
 
     static async postAddVilla(req, res) {
         try {
-            const { name, description, price, img_Url } = req.body
-            await Villa.create({ name, description, price, img_Url })
-            res.redirect('/')
+            const {name, description, price, img_Url} = req.body
+            await Villa.create({name, description, price: +price, img_Url})
+            res.redirect('/villaku/admin')
+
         } catch (error) {
             if (error.name === "SequelizeValidationError") {
                 error = error.errors.map(el => el.message)
@@ -134,7 +137,9 @@ class Controller {
     static async showFormEditVilla(req, res) {
         try {
             const { error } = req.query
-            res.render('formEditVilla', { error })
+            let { VillaId } = req.params
+            let data = await Villa.findVillaById(VillaId)
+            res.render('formEditVilla', {data: data, error})
         } catch (error) {
             res.send(error.message)
         }
@@ -159,6 +164,7 @@ class Controller {
 
     static async deleteVilla(req, res) {
         try {
+
             let { VillaId } = req.params
             await Villa.destroy({
                 where: {
@@ -166,6 +172,7 @@ class Controller {
                 }
             })
             res.redirect(`/villaku/admin`)
+
         } catch (error) {
             res.send(error)
             console.log(error);

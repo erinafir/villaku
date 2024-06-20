@@ -32,21 +32,23 @@
             <th>Price</th>
             <th>Handle</th>
         </tr>
+        <div>
+                     <a href="/villaku/admin/add" style="color: black;" type="button" class="btn btn-primary"> Add</a>
+             </div> 
         <% data.forEach(element => { %>
             <tr>
-                <td> <% element.name %></td>
-                <td> <% element.description %></td>
-                <td> <% rupiah(element.price) %></td>
+                <td> <%= element.name %></td>
+                <td> <%= element.description %></td>
+                <td> <%= rupiah(element.price) %></td>
                 <td>
-                    <a href="/villaku/<% element.id %>/add" style="color: black;" type="button" class="btn btn-primary"> Add</a>
-                    <a href="/villaku/<% element.id %>/edit" style="color: black;" type="button" class="btn btn-primary"> Edit</a>
-                    <a href="/villaku/<% element.id %>/delete" style="color: black;" type="button" class="btn btn-danger"> Delete</a>
+                    <a href="/villaku/admin/<%= element.id %>/edit" style="color: black;" type="button" class="btn btn-primary"> Edit</a>
+                    <a href="/villaku/admin/<%= element.id %>/delete" style="color: black;" type="button" class="btn btn-danger"> Delete</a>
                 </td>
-             
-                
             </tr>
-        <% }) %>
+            <% }) %>
+            
       </table>
     <%- include('_link') %>
+    <%- include('_footer') %>
 </body>
 </html>
