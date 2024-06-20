@@ -17,25 +17,32 @@ class Controller {
   static async dashboardAdmin(req, res) {
     try {
       let data = await Villa.getAllVilla();
-
       res.render("dashboardAdmin", { data, rupiah });
     } catch (error) {
       res.send(error);
     }
   }
 
-    static async showMyVillas(req, res) {
-        try {
-            const {UserId} = req.params
-            const {VillaId} = req.query
-            let data = await Villa.findByPk(+VillaId)
-            let user = await User.findByPk(+UserId)
-            res.render('myvillas', {data, user, rupiah})
-        } catch (error) {
-            res.send(error)
-            console.log(error);
-        }
-      }
+
+  static async showMyVillas(req, res) {
+    try {
+      const { UserId } = req.params
+      const {VillaId} = req.query
+      let user = await User.findOne({
+        where: {
+          id: +UserId
+        }, include: Villa
+      })
+      let data = await Villa.findOne({
+        where: {
+          id: +UserId
+        }})
+      res.render('myVillas', { data, user, rupiah })
+    } catch (error) {
+      res.send(error)
+      console.log(error);
+    }
+  }
 
   static showRegister(req, res) {
     try {
@@ -46,7 +53,7 @@ class Controller {
       console.log(error);
     }
   }
-      
+
   static async postRegister(req, res) {
     try {
       const { username, fullName, email, password, phoneNumber } = req.body;
@@ -102,38 +109,39 @@ class Controller {
   }
 
 
-    static async postLogin(req, res) {
-        try {
-            const { username, password } = req.body
-            let data = await User.findOne({ where: { username: username } })
-            if (!data) throw new Error('please register first');
-            const isValidPassword = bcrypt.compareSync(password, data.password);
-            if (!isValidPassword) throw new Error('invalid username/password');
-            req.session.userRole = data.role
-            res.redirect(`/villaku/${data.id}`)
-        } catch (error) {
-            res.redirect(`/villaku/login?error=${error.message}`)
-        }
+  static async postLogin(req, res) {
+    try {
+      const { username, password } = req.body
+      let data = await User.findOne({ where: { username: username } })
+      if (!data) throw new Error('please register first');
+      const isValidPassword = bcrypt.compareSync(password, data.password);
+      if (!isValidPassword) throw new Error('invalid username/password');
+      req.session.userRole = data.role
+      res.redirect(`/villaku/${data.id}`)
+    } catch (error) {
+      res.redirect(`/villaku/login?error=${error.message}`)
     }
+  }
 
-    static async redirectLogin(req, res){
-        try {
-            const {UserId} = req.params
-            let data = await Villa.getAllVilla()
-            res.render('redirect-home', { data, UserId, rupiah })
-        } catch (error) {
-            res.send(error)
-            console.log(error);
-        }
+  static async redirectLogin(req, res) {
+    try {
+      const { UserId } = req.params
+      let data = await Villa.getAllVilla()
+      res.render('redirect-home', { data, UserId, rupiah })
+    } catch (error) {
+      res.send(error)
+      console.log(error);
     }
+  }
 
-    static async showFormAddVilla(req, res) {
-        try {
-            res.render('formAddVilla')
-        } catch (error) {
-            res.send(error.message)
-        }
+  static async showFormAddVilla(req, res) {
+    try {
+      res.render('formAddVilla')
+    } catch (error) {
+      res.send(error.message)
     }
+  }
+
 
     static async postAddVilla(req, res) {
         try {
@@ -151,6 +159,7 @@ class Controller {
         }
       }
         
+
 
   static async showFormEditVilla(req, res) {
     try {
@@ -205,6 +214,7 @@ class Controller {
     }
   }
 
+
     static async logout(req, res) {
         try {
             req.session.destroy(function (err) {
@@ -217,6 +227,8 @@ class Controller {
       }
     }
   
+
+
 
 
 
