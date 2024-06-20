@@ -24,11 +24,11 @@ app.get('/villaku/:UserId/rented', Controller.showMyVillas)
 // app.post('/profile/:profileId/edit', Controller) 
 // app.get('/profile/:profileId/delete', Controller)
 
-app.get('/villaku/admin/:VillaId/add', Controller)
-app.post('/villaku/admin/:VillaId/add', Controller)
+app.get('/villaku/admin/:VillaId/add', Controller.showFormAddVilla)
+app.post('/villaku/admin/:VillaId/add', Controller.postAddVilla)
 
-app.get('/villaku/admin/:VillaId/edit', Controller)
-app.post('/villaku/admin/:VillaId/edit', Controller) 
+app.get('/villaku/admin/:VillaId/edit', Controller.showFormEditVilla)
+app.post('/villaku/admin/:VillaId/edit', Controller.postEditVilla) 
 
 app.get('/villaku//admin/:VillaId/delete', Controller.deleteVilla)
 
