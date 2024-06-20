@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Login</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&display=swap');
 
@@ -161,31 +160,15 @@
                 <div class="form-holder">
                     <div class="form-content">
                         <div class="form-items">
-                            <h3>Register Today</h3>
-                            <p>Fill in the data below.</p>
-                            <form action="villaku/register" method="post">
+                            <h3>Login</h3>
+                            <form action="/villaku/login" method="post">
                                 <div class="col-md-12">
                                     <input class="form-control" type="text" name="username" placeholder="Username"
                                         required>
                                 </div>
 
                                 <div class="col-md-12">
-                                    <input class="form-control" type="text" name="fullName" placeholder="Full Name"
-                                        required>
-                                </div>
-
-                                <div class="col-md-12">
-                                    <input class="form-control" type="email" name="email" placeholder="E-mail Address"
-                                        required>
-                                </div>
-
-                                <div class="col-md-12">
                                     <input class="form-control" type="password" name="password" placeholder="Password"
-                                        required>
-                                </div>
-
-                                <div class="col-md-12">
-                                    <input class="form-control" type="text" name="phoneNumber" placeholder="Phone Number"
                                         required>
                                 </div>
 
@@ -195,7 +178,7 @@
                                 </div>
 
                                 <div class="form-button mt-3">
-                                    <button id="submit" type="submit" class="btn btn-primary">Register</button>
+                                    <button id="submit" type="submit" class="btn btn-primary">Login</button>
                                 </div>
                             </form>
                         </div>
@@ -208,3 +191,7 @@
 </body>
 
 </html>
+
+    <%- include('_link') %>
+</body>
+</html>l
