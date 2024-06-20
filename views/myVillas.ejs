@@ -7,20 +7,27 @@
 </head>
 <body>
     <%- include('_navbar') %>
+    <div class="container">
     <a class="btn btn-primary" href="/villaku/<%= user.id %>" role="button">Back to Home</a>
-     <h3>Congratulations <%= user.name %></h3>
-     <h5>You successfully rented this property:</h5>
-      <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title"> <%= data.name %></h5>
-          <p class="card-text"><%= data.description %></p>
-          <p class="card-text"><%= rupiah(data.price) %></p>
-          <a href="/" class="btn btn-primary">Cancel</a>
-        </div>
-      </div>
- 
+    
+    <% if (user.Villas.length === 0) { %> 
+      <h3 >Sorry <%= user.name %>, it appears that you haven't rented anything</h3>
+      <% } else {%> 
       
+      <h3>Congratulations <%= user.name %></h3>
+      <h5>You successfully rented this property:</h5>
+       <div class="card" style="width: 18rem;">
+         <img src="<%= data.img_Url %>" class="card-img-top" alt="...">
+         <div class="card-body">
+           <h5 class="card-title"> <%= data.name %></h5>
+           <p class="card-text"><%= data.description %></p>
+           <p class="card-text"><%= rupiah(data.price) %></p>
+           <a href="/" class="btn btn-primary">Cancel</a>
+         </div>
+       </div>
+       <% } %>
+       
+      </div>
       <%- include('_link') %>
       <%- include('_footer') %>
 </body>

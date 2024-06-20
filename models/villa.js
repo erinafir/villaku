@@ -4,22 +4,11 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Villa extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-      Villa.belongsTo(models.Location, {foreignKey: "LocationId"})
-      Villa.belongsToMany(models.User, {through: "UserVilla", foreignKey: "VillaId"})
-    }
 
     static async getAllVilla(){
       try {
         let data = await Villa.findAll()
         return data
-        
       } catch (error) {
         throw error
       }
@@ -37,6 +26,16 @@ module.exports = (sequelize, DataTypes) => {
         throw error
       }
     }
+
+
+
+    static associate(models) {
+      // define association here
+      Villa.belongsTo(models.Location, {foreignKey: "LocationId"})
+      Villa.belongsToMany(models.User, {through: "UserVilla", foreignKey: "VillaId"})
+    }
+
+    
   }
 
   Villa.init({

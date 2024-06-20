@@ -42,10 +42,9 @@ function checkAdmin(req, res, next) {
         next()
     }
 }
+app.get('/villaku/admin', checkAdmin, Controller.dashboardAdmin)
 
 app.get('/villaku/:UserId', Controller.redirectLogin)
-
-app.get('/villaku/admin', checkAdmin, Controller.dashboardAdmin)
 
 app.get('/villaku/:UserId/rented', Controller.showMyVillas)
 
