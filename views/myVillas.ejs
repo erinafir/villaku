@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rented Villas</title>
 </head>
 <body>
     <%- include('_navbar') %>
-    <% data.forEach(element => { %>
-     
-    <% }) %>
-    <div class="card" style="width: 18rem;">
+    <a class="btn btn-primary" href="/villaku/<%= user.id %>" role="button">Back to Home</a>
+     <h3>Congratulations <%= user.name %></h3>
+     <h5>You successfully rented this property:</h5>
+      <div class="card" style="width: 18rem;">
         <img src="..." class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title"> <%= element.name %></h5>
-          <p class="card-text"><%= element.description %></p>
-          <p class="card-text"><%= rupiah(element.price) %></p>
+          <h5 class="card-title"> <%= data.name %></h5>
+          <p class="card-text"><%= data.description %></p>
+          <p class="card-text"><%= rupiah(data.price) %></p>
           <a href="/" class="btn btn-primary">Cancel</a>
         </div>
       </div>
-
+ 
+      
       <%- include('_link') %>
       <%- include('_footer') %>
 </body>
