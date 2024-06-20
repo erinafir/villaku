@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    
+    greetRole() {
+      let greet = `${this.role} ${this.username}`
+      return greet
+    }
+
     static associate(models) {
       // define association here
       User.belongsToMany(models.Villa, { through: "UserVillas", foreignKey: "UserId" })
