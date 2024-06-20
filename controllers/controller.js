@@ -1,7 +1,9 @@
 const { User, Villa, Location, UserProfile } = require('../models')
-const { rupiah } = require('../helpers/index')
+const rupiah  = require('../helpers/index')
 const UserVilla = require('../models/uservilla')
 const bcrypt = require('bcryptjs');
+const { where } = require('sequelize');
+
 
 class Controller {
     static async home(req, res) {
@@ -24,22 +26,16 @@ class Controller {
         }
     }
 
-    static async book(req, res) {
-        try {
-
-
-            res.redirect('/')
-        } catch (error) {
-            res.send(error.message)
-        }
-    }
-
     static async showMyVillas(req, res) {
         try {
-            let data = await Villa.findAll()
-            res.render('myvillas')
+            const {UserId} = req.params
+            const {VillaId} = req.query
+            let data = await Villa.findByPk(+VillaId)
+            let user = await User.findByPk(+UserId)
+            res.render('myvillas', {data, user, rupiah})
         } catch (error) {
-
+            res.send(error)
+            console.log(error);
         }
     }
     static showRegister(req, res) {
@@ -64,16 +60,8 @@ class Controller {
                 phoneNumber: phoneNumber,
                 UserId: newUser.id
             })
-            const emailjs = require('emailjs-com');
-            const templateParams = {
-                to_email: email
-            };
-            emailjs.send('contact_service', 'welcome_email', templateParams, '-OUQA3nFzhtZl9-Gs')
-                .then((response) => {
-                    console.log('SUCCESS!', response.status, response.text);
-                }, (err) => {
-                    console.log('FAILED...', err);
-                });
+            // const emailjs = require('emailjs-com');
+            // emailjs.send('contact_service', 'welcome_email', {to_address: 'erina.fir@gmail.com'}, '-OUQA3nFzhtZl9-Gs')
             res.redirect('/')
         } catch (error) {
             if (error.name === "SequelizeValidationError") {
@@ -98,14 +86,24 @@ class Controller {
         try {
             const { username, password } = req.body
             let data = await User.findOne({ where: { username: username } })
-            if (!data) throw new Error('user does not exist');
+            if (!data) throw new Error('please register first');
             const isValidPassword = bcrypt.compareSync(password, data.password);
             if (!isValidPassword) throw new Error('invalid username/password');
             req.session.userRole = data.role
-            res.redirect('/')
-
+            res.redirect(`/villaku/${data.id}`)
         } catch (error) {
             res.redirect(`/villaku/login?error=${error.message}`)
+        }
+    }
+
+    static async redirectLogin(req, res){
+        try {
+            const {UserId} = req.params
+            let data = await Villa.getAllVilla()
+            res.render('redirect-home', { data, UserId, rupiah })
+        } catch (error) {
+            res.send(error)
+            console.log(error);
         }
     }
 
@@ -122,7 +120,6 @@ class Controller {
             const {name, description, price, img_Url} = req.body
             await Villa.create({name, description, price: +price, img_Url})
             res.redirect('/villaku/admin')
-
         } catch (error) {
             if (error.name === "SequelizeValidationError") {
                 error = error.errors.map(el => el.message)
@@ -183,8 +180,6 @@ class Controller {
         try {
             req.session.destroy(function (err) {
                 if (err) console.log(err);
-                res.redirect('/villaku/login')
-
             })
             res.redirect('/')
         } catch (error) {

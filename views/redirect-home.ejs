@@ -17,7 +17,35 @@
 </head>
 <body style=" background-color: #152733;">
     
-    <%- include('_navbar') %>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            
+            <div class="rounded-circle bg-white shadow-1-strong d-flex align-items-center justify-content-center mb-4 mx-auto" style="width: 100px; height: 100px;">
+                <img src="https://i.pinimg.com/736x/1a/7d/c7/1a7dc7508a3af5468f491b116624a376.jpg" height="150" alt=""
+                     loading="lazy" />
+                </div>
+    
+             
+          <a style="margin-left: 30px;" class="navbar-brand" href="/">Villaku</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/villaku/register"> Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/villaku/login">Login</a>
+              </li>
+              <li class="nav-item">
+
+                <a class="nav-link active" aria-current="page" href="/villaku/<%= UserId %>/rented">My Villas</a>
+              </li>
+                <a style="margin-left: 1000px;" href="/villaku/logout" class="btn btn-outline-success" type="submit">Log out</a>
+          </div>
+        </div>
+      </nav>
     <h1 style="color: white; margin-bottom: 5px;margin-top: 50px;" class="text-center fs-1 fst-italic fw-bolder">Villaku</h1>
     <div class="container mt-5">
         <div class="row">
@@ -42,7 +70,7 @@
             <p class="card-text">Description:</p>
             <h5 class="card-title"> <%=element.description%> </h5>
             <h5 class="card-title"> <%=rupiah(element.price)%> </h5>
-            <a href="/villaku/login"  class="btn btn-primary text-center">Book this</a>
+            <a href="/villaku/<%= UserId %>/rented?VillaId=<%= element.id %>"  class="btn btn-primary text-center">Book this</a>
           </div>
         </div>
       </div>

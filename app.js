@@ -2,7 +2,6 @@ const express = require('express')
 const Controller = require('./controllers/controller')
 const app = express()
 const session = require('express-session')
-const {checkAdmin} = require('./helpers/index')
 const port = 3000
 
 
@@ -30,9 +29,21 @@ app.use((req, res, next) => {
     if (!req.session.userRole) {
         const error = 'Please login first!'
         res.redirect(`/villaku/login?error=${error}`)
-    }
+    } else {
     next()
+    }
 })
+
+
+function checkAdmin(req, res, next) {
+    if (req.session.userRole !== 'admin') {
+        const error = 'You do not have access to this page'
+        res.redirect(`/villaku/login?error=${error}`)
+    } else {
+        next()
+    }
+}
+app.get('/villaku/:UserId', Controller.redirectLogin)
 
 app.get('/villaku/admin', checkAdmin, Controller.dashboardAdmin)
 
