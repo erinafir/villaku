@@ -14,6 +14,16 @@ module.exports = (sequelize, DataTypes) => {
       Villa.belongsTo(models.Location, {foreignKey: "LocationId"})
       Villa.belongsToMany(models.User, {through: "UserVilla", foreignKey: "VillaId"})
     }
+
+    static async getAllVilla(){
+      try {
+        let data = await Villa.findAll()
+        return data
+        
+      } catch (error) {
+        throw error
+      }
+    }
   }
   Villa.init({
     name: DataTypes.STRING,

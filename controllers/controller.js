@@ -1,12 +1,22 @@
 const { User, Villa, Location, UserProfile } = require('../models')
-const user = require('../models/user')
+const rupiah = require('../helpers/index')
 
 class Controller {
     static async home(req, res){
         try {
-            res.render('home')
+            let data = await Villa.getAllVilla()
+            res.render('home', {data, rupiah})
         } catch (error) {
             res.send(error.message)
+        }
+    }
+
+    static async dashboardAdmin(req,res){
+        try {
+            let data = await Villa.getAllVilla()
+            res.render()
+        } catch (error) {
+            res.send(error)
         }
     }
     static async showRegister(req, res){
