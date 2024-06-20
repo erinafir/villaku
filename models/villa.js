@@ -24,7 +24,21 @@ module.exports = (sequelize, DataTypes) => {
         throw error
       }
     }
+
+    static async findVillaById(id){
+      try {
+        let data = await Villa.findOne({
+          where: {
+            id: id,
+          }
+        })
+        return data
+      } catch (error) {
+        throw error
+      }
+    }
   }
+
   Villa.init({
     name: {type: DataTypes.STRING,
       allowNull: false,
