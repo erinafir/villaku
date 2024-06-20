@@ -25,6 +25,8 @@ class Controller {
     static async book(req, res) {
         try {
 
+
+            res.redirect('/')
         } catch (error) {
             res.send(error.message)
         }
@@ -110,7 +112,36 @@ class Controller {
         }
     }
 
-    static async deleteVilla(req, res) {
+    static async postAddVilla(req,res){
+        try {
+            const {name, description, price, img_Url} = req.body
+            await Villa.create({name, description, price, img_Url})
+            res.redirect('/')
+        } catch (error) {
+            res.send(error.message)
+        }
+    }
+
+    static async showFormEditVilla(req,res){
+        try {
+            res.render('formEditVilla')
+        } catch (error) {
+            res.send(error.message)
+        }
+    }
+
+    static async postEditVilla(req,res){
+        try {
+            let {name, description, price, img_Url} = req.body
+            let { VillaId } = req.params
+            await Villa.update({name, description, price, img_Url})
+            res.redirect(`/villaku/admin/${VillaId}/edit`)
+        } catch (error) {
+            res.send(error.message)
+        }
+    }
+
+    static async deleteVilla(req,res){
         try {
             let { VillaId } = req.params
             // console.log(Villa.findAll({
