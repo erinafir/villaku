@@ -14,8 +14,8 @@ app.get('/villaku/register', Controller.showRegister)
 app.post('/villaku/register', Controller.postRegister)
 
 app.get('/villaku/login', Controller.showLogin)
-app.post('/villaku/login', Controller.showLogin)
-app.get('/villaku/logout',Controller.logout)
+app.post('/villaku/login', Controller.postLogin)
+app.get('/villaku/logout', Controller.logout)
 
 app.get('/villaku/:UserId/rented', Controller.showMyVillas)
 
