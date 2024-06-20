@@ -15,6 +15,7 @@ class Controller {
     static async dashboardAdmin(req,res){
         try {
             let data = await Villa.getAllVilla()
+            console.log(data);
             res.render('dashboardAdmin', {data, rupiah})
         } catch (error) {
             res.send(error)
@@ -93,8 +94,8 @@ class Controller {
     static async postAddVilla(req,res){
         try {
             const {name, description, price, img_Url} = req.body
-            await Villa.create({name, description, price, img_Url})
-            res.redirect('/')
+            await Villa.create({name, description, price: +price, img_Url})
+            res.redirect('/villaku/admin')
         } catch (error) {
             res.send(error.message)
         }
@@ -102,7 +103,9 @@ class Controller {
 
     static async showFormEditVilla(req,res){
         try {
-            res.render('formEditVilla')
+            let { VillaId } = req.params
+            let data = await Villa.findVillaById(VillaId)
+            res.render('formEditVilla', {data: data})
         } catch (error) {
             res.send(error.message)
         }
@@ -122,15 +125,13 @@ class Controller {
     static async deleteVilla(req,res){
         try {
             let { VillaId } =  req.params
-            // console.log(Villa.findAll({
-            //     include: uservilla
-            // }));
-            // await .destroy({
-            //     where: {
-            //         id: VillaId
-            //     }
-            // })
-            // res.redirect(`/villaku/${VillaId}/delete`)
+            let data = await Villa.findByPk(+VillaId)
+            await Villa.destroy({
+                where: {
+                    id: +VillaId
+                }
+            })
+            res.redirect(`/villaku/admin`)
         } catch (error) {
             res.send(error)
         }

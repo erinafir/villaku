@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Form Add Villa</title>
+    <title> Form Edit Villa</title>
 </head>
 <body>
+    <%- include('_navbar') %>
     <style>
            body {
       background-color: yellow;
@@ -14,32 +15,30 @@
       background-size: 100% 100%;
     }
     </style>
-    <% data.forEach(element => { %>
-     
-    <% }) %>
+   
     <div class="container"; style="background-image: url();">
-        <form action="/villaku/admin/<% element.id %>/edit" method="post">
+        <form action="/villaku/admin/<% data.id %>/edit" method="post">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Name</label>
-                <input type="text" class="form-control" name="name" value="<% element.name %>">
+                <input type="text" class="form-control" name="name" value="<%= data.name %>">
 
             </div>
 
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Description</label>
-                <input type="text" class="form-control" name="description" value="<% element.description %>">
+                <input type="text" class="form-control" name="description" value="<%= data.description %>">
 
             </div>
 
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Price</label>
-                <input type="number" class="form-control" name="price" value="<% element.price %>">
+                <input type="number" class="form-control" name="price" value="<%= data.price %>">
 
             </div>
 
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Image Url</label>
-                <input type="text" class="form-control" name="image_Url" value="<% element.image_Url %>">
+                <input type="text" class="form-control" name="image_Url" value="<%= data.img_Url %>">
 
             </div>
             <button type="submit" class="btn btn-primary">Edit</button>
@@ -48,5 +47,6 @@
         </form>
     </div>
     <%- include('_link') %>
+    <%- include('_footer') %>
 </body>
 </html>
