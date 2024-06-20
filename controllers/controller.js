@@ -35,6 +35,7 @@ class Controller {
             res.send(error)
             console.log(error);
         }
+      }
 
   static showRegister(req, res) {
     try {
@@ -148,6 +149,8 @@ class Controller {
                 console.log(error);
             }
         }
+      }
+        
 
   static async showFormEditVilla(req, res) {
     try {
@@ -200,7 +203,7 @@ class Controller {
       res.send(error);
       console.log(error);
     }
-
+  }
 
     static async logout(req, res) {
         try {
@@ -211,10 +214,11 @@ class Controller {
         } catch (error) {
             res.send(error.message)
         }
-
-  }
-
+      }
+    }
   
-}
+
+
+
 
 module.exports = Controller;
