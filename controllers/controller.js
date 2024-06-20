@@ -23,6 +23,7 @@ class Controller {
     }
   }
 
+
   static async showMyVillas(req, res) {
     try {
       const { UserId } = req.params
@@ -141,21 +142,24 @@ class Controller {
     }
   }
 
-  static async postAddVilla(req, res) {
-    try {
-      const { name, description, price, img_Url } = req.body
-      await Villa.create({ name, description, price: +price, img_Url })
-      res.redirect('/villaku/admin')
-    } catch (error) {
-      if (error.name === "SequelizeValidationError") {
-        error = error.errors.map(el => el.message)
-        res.redirect(`/villaku/register?error=${error}`)
-      } else {
-        res.send(error)
-        console.log(error);
+
+    static async postAddVilla(req, res) {
+        try {
+            const {name, description, price, img_Url} = req.body
+            await Villa.create({name, description, price: +price, img_Url})
+            res.redirect('/villaku/admin')
+        } catch (error) {
+            if (error.name === "SequelizeValidationError") {
+                error = error.errors.map(el => el.message)
+                res.redirect(`/villaku/register?error=${error}`)
+            } else {
+                res.send(error)
+                console.log(error);
+            }
+        }
       }
-    }
-  }
+        
+
 
   static async showFormEditVilla(req, res) {
     try {
@@ -211,19 +215,22 @@ class Controller {
   }
 
 
-  static async logout(req, res) {
-    try {
-      req.session.destroy(function (err) {
-        if (err) console.log(err);
-      })
-      res.redirect('/')
-    } catch (error) {
-      res.send(error.message)
+    static async logout(req, res) {
+        try {
+            req.session.destroy(function (err) {
+                if (err) console.log(err);
+            })
+            res.redirect('/')
+        } catch (error) {
+            res.send(error.message)
+        }
+      }
     }
+  
 
-  }
 
 
-}
+
+
 
 module.exports = Controller;
