@@ -15,9 +15,24 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   UserProfile.init({
-    fullName: DataTypes.STRING,
-    img_Url: DataTypes.STRING,
-    phoneNumber: DataTypes.STRING
+    fullName: {type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "name cannot be null"
+        },
+        notEmpty: {
+          msg: "name cannot be empty"
+        }
+      }
+    },
+    img_Url: {type: DataTypes.STRING,
+      defaultValue: "https://placehold.co/800?text=Hello+World&font=roboto",
+      allowNull: false
+    },
+    phoneNumber: {type: DataTypes.STRING,
+
+    }
   }, {
     sequelize,
     modelName: 'UserProfile',
