@@ -4,12 +4,6 @@ function rupiah(valuation) {
   )
 }
 
-function checkAdmin(req, res, next) {
-  if (req.session.userRole !== 'admin') {
-    const error = 'You do not have access to this page'
-    res.redirect(`/login?error=${error}`)
-  }
-  next()
-}
 
-module.exports = {rupiah, checkAdmin}
+
+module.exports = rupiah
