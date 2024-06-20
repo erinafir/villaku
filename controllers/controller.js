@@ -1,3 +1,4 @@
+
 const { User, Villa, Location, UserProfile } = require("../models");
 const rupiah = require("../helpers/index");
 const UserVilla = require("../models/uservilla");
@@ -23,6 +24,25 @@ class Controller {
     }
   }
 
+    static async showMyVillas(req, res) {
+        try {
+            const {UserId} = req.params
+            const {VillaId} = req.query
+            let data = await Villa.findByPk(+VillaId)
+            let user = await User.findByPk(+UserId)
+            res.render('myvillas', {data, user, rupiah})
+        } catch (error) {
+            res.send(error)
+            console.log(error);
+        }
+
+  static showRegister(req, res) {
+    try {
+      const { error } = req.query;
+      res.render("register", { error });
+    } catch (error) {
+      res.send(error);
+      console.log(error);
   static async book(req, res) {
     try {
       res.redirect("/");
@@ -126,6 +146,7 @@ class Controller {
       console.log(error);
     }
   }
+      
   static async postRegister(req, res) {
     try {
       const { username, fullName, email, password, phoneNumber } = req.body;
@@ -168,6 +189,7 @@ class Controller {
         console.log(error);
       }
     }
+
   }
   static showLogin(req, res) {
     try {
@@ -176,6 +198,25 @@ class Controller {
     } catch (error) {
       res.send(error);
       console.log(error);
+    }
+  }
+
+
+    static async postLogin(req, res) {
+        try {
+            const { username, password } = req.body
+            let data = await User.findOne({ where: { username: username } })
+            if (!data) throw new Error('please register first');
+            const isValidPassword = bcrypt.compareSync(password, data.password);
+            if (!isValidPassword) throw new Error('invalid username/password');
+            req.session.userRole = data.role
+            res.redirect(`/villaku/${data.id}`)
+        } catch (error) {
+            res.redirect(`/villaku/login?error=${error.message}`)
+        }
+    }
+
+    static async redirectLogin(req, res){
     }
   }
   static async postLogin(req, res) {
@@ -202,6 +243,38 @@ class Controller {
             console.log(error);
         }
     }
+
+    static async showFormAddVilla(req, res) {
+        try {
+            res.render('formAddVilla')
+        } catch (error) {
+            res.send(error.message)
+        }
+    }
+
+    static async postAddVilla(req, res) {
+        try {
+            const {name, description, price, img_Url} = req.body
+            await Villa.create({name, description, price: +price, img_Url})
+            res.redirect('/villaku/admin')
+        } catch (error) {
+            if (error.name === "SequelizeValidationError") {
+                error = error.errors.map(el => el.message)
+                res.redirect(`/villaku/register?error=${error}`)
+            } else {
+                res.send(error)
+                console.log(error);
+            }
+        }
+
+  static async showFormEditVilla(req, res) {
+    try {
+      const { error } = req.query;
+      let { VillaId } = req.params;
+      let data = await Villa.findVillaById(VillaId);
+      res.render("formEditVilla", { data: data, error });
+    } catch (error) {
+      res.send(error.message);
 
   static async showFormAddVilla(req, res) {
     try {
@@ -276,6 +349,9 @@ class Controller {
       res.send(error);
       console.log(error);
     }
+
+      console.log(error);
+    }
   }
 
     static async logout(req, res) {
@@ -286,6 +362,11 @@ class Controller {
             res.redirect('/')
         } catch (error) {
             res.send(error.message)
+        }
+
+  }
+
+  
         }
     }
 }
