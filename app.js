@@ -29,21 +29,19 @@ app.use((req, res, next) => {
     if (!req.session.userRole) {
         const error = 'Please login first!'
         res.redirect(`/villaku/login?error=${error}`)
-    } else {
+    } else{
     next()
     }
 })
 
-
 function checkAdmin(req, res, next) {
     if (req.session.userRole !== 'admin') {
-        const error = 'You do not have access to this page'
-        res.redirect(`/villaku/login?error=${error}`)
+      const error = 'You do not have access to this page'
+      res.redirect(`/villaku/login?error=${error}`)
     } else {
-        next()
+    next()
     }
-}
-app.get('/villaku/:UserId', Controller.redirectLogin)
+  }
 
 app.get('/villaku/admin', checkAdmin, Controller.dashboardAdmin)
 
@@ -62,7 +60,7 @@ app.post('/villaku/admin/add', checkAdmin, Controller.postAddVilla)
 app.get('/villaku/admin/:VillaId/edit', checkAdmin, Controller.showFormEditVilla)
 app.post('/villaku/admin/:VillaId/edit', checkAdmin, Controller.postEditVilla)
 
-app.get('/villaku//admin/:VillaId/delete', checkAdmin, Controller.deleteVilla)
+app.get('/villaku/admin/:VillaId/delete', checkAdmin, Controller.deleteVilla)
 
 app.get('/villaku/logout', Controller.logout)
 
