@@ -15,7 +15,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Location.init({
-    location: DataTypes.STRING
+    location: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "location cannot be null"
+        },
+        notEmpty: {
+          msg: "location cannot be empty"
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Location',

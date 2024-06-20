@@ -2,6 +2,7 @@
     {
         "fullName": "admin123",
         "img_Url": "https://placehold.co/800?text=Hello+World&font=roboto",
-        "phoneNumber": "123456789"
+        "phoneNumber": "123456789",
+        "UserId": 1
     }
 ]

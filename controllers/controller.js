@@ -56,14 +56,15 @@ class Controller {
     static async postRegister(req, res){
         try {
             const { username, fullName, email, password, phoneNumber} = req.body
-            await User.create({
+            let newUser = await User.create({
                 username: username,
                 email: email,
                 password: password
             })
             await UserProfile.create({
                 fullName: fullName,
-                phoneNumber: phoneNumber
+                phoneNumber: phoneNumber,
+                UserId: newUser.id
             })
             res.redirect('/')
         } catch (error) {

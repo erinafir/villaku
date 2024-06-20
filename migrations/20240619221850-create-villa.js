@@ -25,7 +25,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: "Locations",
-          id: "id"
+          key: "id"
         }
       },
       createdAt: {

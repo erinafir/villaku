@@ -2,6 +2,8 @@
 const {
   Model
 } = require('sequelize');
+
+const bcrypt = require('bcryptjs');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -52,6 +54,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         notEmpty: {
           msg: "password cannot be empty"
+        },
+        isPassword(value) {
+          if (value.length < 8) {
+            throw new Error("password must contain at least 8 characters")
+          }
         }
       }
     },
@@ -70,6 +77,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
+    hooks: {
+      beforeCreate(instance, option) {
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(instance.password, salt);
+        instance.password = hash
+      }
+    },
     modelName: 'User',
   });
   return User;
