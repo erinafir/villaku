@@ -23,7 +23,7 @@
           }
       </style>
 </head>
-<body>
+<body style="background-color: #086eb3b9;">
     <%- include('_navbar') %>
     <div class="container">
     <table class="table table-striped">
@@ -34,7 +34,8 @@
             <th>Handle</th>
         </tr>
         <div>
-                     <a href="/villaku/admin/add" style="color: black;" type="button" class="btn btn-primary"> Add</a>
+                     <a href="/villaku/admin/add" style="color: black;" type="button" class="btn btn-outline-light mt-2 mb-3"> Add</a>
+                     
              </div> 
         <% data.forEach(element => { %>
             <tr>
@@ -42,12 +43,11 @@
                 <td> <%= element.description %></td>
                 <td> <%= rupiah(element.price) %></td>
                 <td>
-                    <a href="/villaku/admin/<%= element.id %>/edit" style="color: black;" type="button" class="btn btn-primary"> Edit</a>
-                    <a href="/villaku/admin/<%= element.id %>/delete" style="color: black;" type="button" class="btn btn-danger"> Delete</a>
+                    <a href="/villaku/admin/<%= element.id %>/edit" style="color: black;" type="button" class="btn btn-outline-warning"> Edit</a>
+                    <a href="/villaku/admin/<%= element.id %>/delete" style="color: black;" type="button" class="btn btn-outline-danger"> Delete</a>
                 </td>
             </tr>
             <% }) %>
-            
       </table>
     </div>
     <%- include('_link') %>

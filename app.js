@@ -48,7 +48,7 @@ app.get('/villaku/:UserId', Controller.redirectLogin)
 
 app.get('/villaku/:UserId/rented', Controller.showMyVillas)
 
-// app.get('/profile/:profileId', Controller)
+app.get('/villaku/:UserId/profile', Controller.showProfileDetail)
 // app.get('/profile/:profileId/edit', Controller)
 // app.post('/profile/:profileId/edit', Controller) 
 // app.get('/profile/:profileId/delete', Controller)
