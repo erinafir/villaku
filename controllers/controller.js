@@ -2,7 +2,7 @@ const { User, Villa, Location, UserProfile, UserVilla } = require("../models");
 const rupiah = require("../helpers/index");
 const bcrypt = require("bcryptjs");
 const { Op, where } = require('sequelize');
-let {mailOptions, transporter} = require('../index')
+let { mailOptions, transporter } = require('../index')
 
 class Controller {
 
@@ -23,8 +23,8 @@ class Controller {
 
   static async dashboardAdmin(req, res) {
     try {
-      let data = await Villa.findAll({include: Location});
-      
+      let data = await Villa.findAll();
+      let d
       res.render("dashboardAdmin", { data, rupiah });
     } catch (error) {
       res.send(error);
@@ -91,7 +91,7 @@ class Controller {
         subject: 'Welcome to Villaku!',
         text: `Welcome to Villaku! We're so happy to have you here. Are you ready to rent by vibe?`
       };
-      transporter.sendMail(mailOptions, function(error, info){
+      transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           console.log(error);
         } else {
@@ -139,8 +139,8 @@ class Controller {
     try {
       const { UserId } = req.params
       const { sort } = req.query
-      let user = await User.findByPk(+UserId , {include: UserProfile})
-      
+      let user = await User.findByPk(+UserId, { include: UserProfile })
+
       if (sort) {
         let data = await Villa.findAll({
           order: [[sort, 'desc']]
@@ -244,9 +244,22 @@ class Controller {
       })
       res.redirect('/')
     } catch (error) {
-      res.send(error.message)
+      res.send(error);
+      console.log(error);
     }
   }
+
+  static async showProfileDetail(req, res) {
+    try {
+      let { UserId } = req.params;
+      let data = await User.findByPk(+UserId, { include: UserProfile })
+      res.render('profiledetail', { data })
+    } catch (error) {
+      res.send(error);
+      console.log(error);
+    }
+  }
+
 }
 
 
